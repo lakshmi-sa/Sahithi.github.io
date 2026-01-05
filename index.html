@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sahithi | Chat Bio</title>
+  <style>
+    :root{
+      --bg:#ece5dd;
+      --bubble:#ffffff;
+      --bubbleMe:#dcf8c6;
+      --text:#111;
+      --shadow: rgba(0,0,0,.08);
+    }
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .wrap{
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      display:flex;
+      flex-direction:column;
+    }
+    .topbar{
+      position: sticky;
+      top:0;
+      background:#075e54;
+      color:white;
+      padding:14px 16px;
+      font-weight:600;
+      box-shadow: 0 2px 8px var(--shadow);
+      z-index:10;
+    }
+    .chat{
+      padding:16px 12px 90px;
+      flex:1;
+    }
+    .row{ display:flex; margin:10px 0; }
+    .left{ justify-content:flex-start; }
+    .right{ justify-content:flex-end; }
+
+    .msg{
+      max-width: 85%;
+      background: var(--bubble);
+      padding: 10px 12px;
+      border-radius: 14px;
+      box-shadow: 0 1px 6px var(--shadow);
+      line-height: 1.35;
+      font-size: 15px;
+      white-space: pre-line;
+      animation: pop .18s ease-out;
+    }
+    .meBubble{ background: var(--bubbleMe); }
+
+    img.photo{
+      width: 100%;
+      border-radius: 14px;
+      margin-top:10px;
+      box-shadow: 0 2px 10px var(--shadow);
+      display:block;
+    }
+
+    .typing{
+      display:inline-flex;
+      gap:6px;
+      align-items:center;
+    }
+    .dot{
+      width:7px; height:7px; border-radius:50%;
+      background:#999;
+      animation: bounce 1s infinite;
+      opacity:.8;
+    }
+    .dot:nth-child(2){ animation-delay:.15s; }
+    .dot:nth-child(3){ animation-delay:.3s; }
+
+    a{ color:#0a66c2; text-decoration:none; font-weight:600; }
+
+    .footerHint{
+      position: fixed;
+      bottom: 0;
+      left:0; right:0;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(6px);
+      padding: 10px 12px;
+      box-shadow: 0 -2px 10px var(--shadow);
+      text-align:center;
+      font-size: 13px;
+    }
+
+    @keyframes bounce{
+      0%,60%,100%{ transform: translateY(0); }
+      30%{ transform: translateY(-4px); }
+    }
+    @keyframes pop{
+      from{ transform:scale(.98); opacity:.4; }
+      to{ transform:scale(1); opacity:1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">Sahithi • chat bio 💬</div>
+    <div id="chat" class="chat"></div>
+  </div>
+
+  <div class="footerHint">Tip: Share this link in Instagram/LinkedIn bio ✨</div>
+
+  <script>
+    const chatEl = document.getElementById("chat");
+
+    // ✅ Update these image file names to match your repo
+    const IMAGES = {
+      india: "india.jpg",
+      london: "london.jpg",
+      usa: "usa.jpg"
+    };
+
+    // Messages appear one-by-one (like real chat)
+    const script = [
+      { side: "left",  text: "👋 Hi there!" },
+      { side: "left",  text: "I’m Sahithi Duggaraju 🇮🇳\nSoftware Engineer 💻" },
+      { side: "right", text: "Story time? 😄" },
+
+      { side: "left",  text: "📍 India 🇮🇳\nWorked here for 2 years.\nLearned code + chai addiction ☕" },
+      { side: "left",  img: IMAGES.india, alt:"India" },
+
+      { side: "left",  text: "✈️ Then life said: “London calling!”" },
+      { side: "left",  text: "📍 London 🇬🇧\nWorked for 2 years.\nWrote code, learned accents, survived the weather 😅" },
+      { side: "left",  img: IMAGES.london, alt:"London" },
+
+      { side: "left",  text: "🇮🇳 Came back to India again!\nAnother 2 years of growth + debugging 🐞" },
+
+      { side: "right", text: "And now?" },
+
+      { side: "left",  text: "🇺🇸 Hello USA!\nNew country, new challenges…\nSame passion for building cool things 🚀" },
+      { side: "left",  img: IMAGES.usa, alt:"USA" },
+
+      { side: "left",  text: "❤️ Things I love:\n 🙇🏻‍♀️human Behavior Training\n ✈️ Traveling \n💻 Building cool tech and working late night👩🏽‍💻" },
+
+      { side: "right", text: "How do we reach you?" },
+
+      { side: "left",  html:
+        `🔗 <a href="https://www.linkedin.com/in/sahithi-duggaraju-0193a497" target="_blank">
+        Check out Sahithi Duggaraju’s profile on LinkedIn</a>`
+      },
+
+      { side: "left",  text: "📞 Contact: 408-590-7960" },
+
+      { side: "right", text: "Let’s build something amazing ✨" }
+    ];
+
+    function addBubble(side, content, isHtml=false){
+      const row = document.createElement("div");
+      row.className = "row " + (side === "right" ? "right" : "left");
+
+      const bubble = document.createElement("div");
+      bubble.className = "msg " + (side === "right" ? "meBubble" : "");
+
+      if(isHtml) bubble.innerHTML = content;
+      else bubble.textContent = content;
+
+      row.appendChild(bubble);
+      chatEl.appendChild(row);
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    }
+
+    function addImage(side, src, alt){
+      const row = document.createElement("div");
+      row.className = "row " + (side === "right" ? "right" : "left");
+
+      const container = document.createElement("div");
+      container.className = "msg " + (side === "right" ? "meBubble" : "");
+
+      const img = document.createElement("img");
+      img.className = "photo";
+      img.src = src;
+      img.alt = alt || "photo";
+
+      container.appendChild(img);
+      row.appendChild(container);
+      chatEl.appendChild(row);
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    }
+
+    // Typing indicator
+    function showTyping(side){
+      const row = document.createElement("div");
+      row.className = "row " + (side === "right" ? "right" : "left");
+      row.id = "typingRow";
+
+      const bubble = document.createElement("div");
+      bubble.className = "msg " + (side === "right" ? "meBubble" : "");
+      bubble.innerHTML = `<span class="typing">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </span>`;
+
+      row.appendChild(bubble);
+      chatEl.appendChild(row);
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    }
+
+    function hideTyping(){
+      const t = document.getElementById("typingRow");
+      if(t) t.remove();
+    }
+
+    async function play(){
+      for(const item of script){
+        showTyping(item.side);
+        // Slightly random delay feels natural
+        const wait = 650 + Math.floor(Math.random()*550);
+        await new Promise(r => setTimeout(r, wait));
+        hideTyping();
+
+        if(item.img){
+          addImage(item.side, item.img, item.alt);
+        } else if(item.html){
+          addBubble(item.side, item.html, true);
+        } else {
+          addBubble(item.side, item.text);
+        }
+      }
+    }
+
+    play();
+  </script>
+</body>
+</html>
