@@ -5,13 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sahithi | Chat Bio</title>
   <style>
-    :root{
-      --bg:#ece5dd;
-      --bubble:#ffffff;
-      --bubbleMe:#dcf8c6;
-      --text:#111;
-      --shadow: rgba(0,0,0,.08);
-    }
+   :root{
+  --bg:#ffe4ec;        /* 💗 Pink chat background */
+  --bubble:#ffffff;   /* white message bubbles */
+  --bubbleMe:#ffd1e3; /* pinkish user bubble */
+  --text:#111;
+  --shadow: rgba(0,0,0,.08);
+}
+    
     body{
       margin:0;
       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
@@ -104,54 +105,61 @@
 </head>
 <body>
   <div class="wrap">
-    <div class="topbar">Sahithi • chat bio 💬</div>
+    <div class="topbar">Sahithi • my chat story 💬</div>
     <div id="chat" class="chat"></div>
   </div>
 
-  <div class="footerHint">Tip: Share this link in Instagram/LinkedIn bio ✨</div>
+  <div class="footerHint">Share this link in your bio ✨</div>
 
   <script>
     const chatEl = document.getElementById("chat");
 
-    // ✅ Update these image file names to match your repo
+    // ✅ Must match the file names in your repo
     const IMAGES = {
-      india: "india.jpg",
       london: "london.jpg",
       usa: "usa.jpg"
     };
 
-    // Messages appear one-by-one (like real chat)
     const script = [
-      { side: "left",  text: "👋 Hi there!" },
-      { side: "left",  text: "I’m Sahithi Duggaraju 🇮🇳\nSoftware Engineer 💻" },
-      { side: "right", text: "Story time? 😄" },
+      { side:"left",  text:"👋 Hi! I’m Sahithi Duggaraju." },
+      { side:"left",  text:"Software Engineer 💻\nIntrovert by nature… extrovert only when needed (like for food) 😄" },
+      { side:"right", text:"Okayyyy… tell me your story!" },
 
-      { side: "left",  text: "📍 India 🇮🇳\nWorked here for 2 years.\nLearned code + chai addiction ☕" },
-      { side: "left",  img: IMAGES.india, alt:"India" },
+      { side:"left",  text:"📍 India 🇮🇳\nI worked A LOT.\nLike… ‘my chair and I became best friends’ level a lot 🪑🤝" },
+      { side:"left",  text:"I worked hard to prove my worth…\nAnd finally they said the magic words:\n✨ ‘We’re giving you onsite.’ ✨" },
 
-      { side: "left",  text: "✈️ Then life said: “London calling!”" },
-      { side: "left",  text: "📍 London 🇬🇧\nWorked for 2 years.\nWrote code, learned accents, survived the weather 😅" },
-      { side: "left",  img: IMAGES.london, alt:"London" },
+      { side:"right", text:"Onsite?? Where??" },
 
-      { side: "left",  text: "🇮🇳 Came back to India again!\nAnother 2 years of growth + debugging 🐞" },
+      { side:"left",  text:"✈️ UK 🇬🇧 (London!)\nI landed and immediately understood:\nThe weather here is a personality 😭" },
+      { side:"left",  text:"To survive the UK weather,\nI developed a new skill:\n☕ Coffee addiction.\nNot optional. Mandatory." },
+      { side:"left",  text:"But honestly… I LOVED the UK culture.\nI did solo travelling, explored places alone,\nand started enjoying my own company like a pro 😌✨" },
+      { side:"left",  img: IMAGES.london, alt:"London" },
 
-      { side: "right", text: "And now?" },
+      { side:"right", text:"That sounds so cool. Then what?" },
 
-      { side: "left",  text: "🇺🇸 Hello USA!\nNew country, new challenges…\nSame passion for building cool things 🚀" },
-      { side: "left",  img: IMAGES.usa, alt:"USA" },
+      { side:"left",  text:"🇮🇳 I moved back to India.\nReality hit like Monday morning 😅" },
+      { side:"left",  text:"Life + work struggles happened.\nSome days felt heavy.\nBut inside I kept telling myself:\n‘There will be light at the end of the tunnel.’ 🌥️➡️🌤️" },
 
-      { side: "left",  text: "❤️ Things I love:\n 🙇🏻‍♀️human Behavior Training\n ✈️ Traveling \n💻 Building cool tech and working late night👩🏽‍💻" },
+      { side:"right", text:"And was there?" },
 
-      { side: "right", text: "How do we reach you?" },
+      { side:"left",  text:"YES 😭✨\nI got my chance to come to the USA 🇺🇸" },
+      { side:"left",  text:"Now I’m living my independent life happily here.\nStill learning, still growing,\njust with bigger dreams (and better coffee options) ☕🚀" },
+      { side:"left",  img: IMAGES.usa, alt:"USA" },
 
-      { side: "left",  html:
+      { side:"right", text:"What do you do when you’re not being awesome?" },
+
+      { side:"left",  text:"My hobbies:\n⏳ Working long hours (I know… I’m working on it 😅)\n🧠 Training on human behavior (observing humans like a scientist)\n✈️ Travelling (solo travel fan club president 🙋‍♀️)" },
+
+      { side:"right", text:"How can someone contact you?" },
+
+      { side:"left", html:
         `🔗 <a href="https://www.linkedin.com/in/sahithi-duggaraju-0193a497" target="_blank">
         Check out Sahithi Duggaraju’s profile on LinkedIn</a>`
       },
+      { side:"left",  text:"📞 Contact: 408-590-7960" },
 
-      { side: "left",  text: "📞 Contact: 408-590-7960" },
-
-      { side: "right", text: "Let’s build something amazing ✨" }
+      { side:"right", text:"Final words?" },
+      { side:"left",  text:"If you’re building something meaningful,\nI’m in.\nIf there’s coffee involved,\nI’m already on the way ☕😄" }
     ];
 
     function addBubble(side, content, isHtml=false){
@@ -187,7 +195,6 @@
       window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
     }
 
-    // Typing indicator
     function showTyping(side){
       const row = document.createElement("div");
       row.className = "row " + (side === "right" ? "right" : "left");
@@ -212,7 +219,6 @@
     async function play(){
       for(const item of script){
         showTyping(item.side);
-        // Slightly random delay feels natural
         const wait = 650 + Math.floor(Math.random()*550);
         await new Promise(r => setTimeout(r, wait));
         hideTyping();
