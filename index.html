@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sahithi | Chat Bio</title>
   <style>
-   :root{
-  --bg:#ffe4ec;        /* 💗 Pink chat background */
-  --bubble:#ffffff;   /* white message bubbles */
-  --bubbleMe:#ffd1e3; /* pinkish user bubble */
-  --text:#111;
-  --shadow: rgba(0,0,0,.08);
-}
-    
+    :root{
+      --bg:#ffe4ec;
+      --bubble:#ffffff;
+      --bubbleMe:#ffd1e3;
+      --text:#111;
+      --shadow: rgba(0,0,0,.08);
+    }
+
     body{
       margin:0;
       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
@@ -56,14 +56,6 @@
       animation: pop .18s ease-out;
     }
     .meBubble{ background: var(--bubbleMe); }
-
-    img.photo{
-      width: 100%;
-      border-radius: 14px;
-      margin-top:10px;
-      box-shadow: 0 2px 10px var(--shadow);
-      display:block;
-    }
 
     .typing{
       display:inline-flex;
@@ -114,12 +106,6 @@
   <script>
     const chatEl = document.getElementById("chat");
 
-    // ✅ Must match the file names in your repo
-    const IMAGES = {
-      london: "london.jpg",
-      usa: "usa.jpg"
-    };
-
     const script = [
       { side:"left",  text:"👋 Hi! I’m Sahithi Duggaraju." },
       { side:"left",  text:"Software Engineer 💻\nIntrovert by nature… extrovert only when needed 😄" },
@@ -133,7 +119,6 @@
       { side:"left",  text:"✈️ UK 🇬🇧 (London!)\nI landed and immediately understood:\nThe weather here is a personality 😭" },
       { side:"left",  text:"To survive the UK weather,\nI developed a new skill:\n☕ Coffee addiction.\nNot optional. Mandatory." },
       { side:"left",  text:"But honestly… I LOVED the UK culture.\nI did solo travelling, explored places alone,\nand started enjoying my own company like a pro 😌✨" },
-      { side:"left",  img: IMAGES.london, alt:"London" },
 
       { side:"right", text:"That sounds so cool. Then what?" },
 
@@ -144,11 +129,10 @@
 
       { side:"left",  text:"YES 😭✨\nI got my chance to come to the USA 🇺🇸" },
       { side:"left",  text:"Now I’m living my independent life happily here.\nStill learning, still growing,\njust with bigger dreams (and better coffee options) ☕🚀" },
-      { side:"left",  img: IMAGES.usa, alt:"USA" },
 
       { side:"right", text:"What do you do when you’re not being awesome?" },
 
-      { side:"left",  text:"My hobbies:\n⏳ Working long hours (I know… I’m working on it 😅)\n🧠 Training on human behavior (observing humans like a scientist)\n✈️ Travelling (solo travel fan club president 🙋‍♀️)" },
+      { side:"left",  text:"My hobbies:\n⏳ Working long hours (I know… I’m working on it 😅)\n🧠 Training on human behavior\n✈️ Travelling (solo travel fan club president 🙋‍♀️)" },
 
       { side:"right", text:"How can someone contact you?" },
 
@@ -159,7 +143,7 @@
       { side:"left",  text:"📞 Contact: Its bit quite hard to know. Try it!!" },
 
       { side:"right", text:"Final words?" },
-      { side:"left",  text:"If you’re building something meaningful,\nI’m in.\nIf there’s coffee involved ,\nI’m already on the way ☕😄" }
+      { side:"left",  text:"If you’re building something meaningful,\nI’m in.\nIf there’s coffee involved,\nI’m already on the way ☕😄" }
     ];
 
     function addBubble(side, content, isHtml=false){
@@ -177,24 +161,6 @@
       window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
     }
 
-    function addImage(side, src, alt){
-      const row = document.createElement("div");
-      row.className = "row " + (side === "right" ? "right" : "left");
-
-      const container = document.createElement("div");
-      container.className = "msg " + (side === "right" ? "meBubble" : "");
-
-      const img = document.createElement("img");
-      img.className = "photo";
-      img.src = src;
-      img.alt = alt || "photo";
-
-      container.appendChild(img);
-      row.appendChild(container);
-      chatEl.appendChild(row);
-      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-    }
-
     function showTyping(side){
       const row = document.createElement("div");
       row.className = "row " + (side === "right" ? "right" : "left");
@@ -202,9 +168,13 @@
 
       const bubble = document.createElement("div");
       bubble.className = "msg " + (side === "right" ? "meBubble" : "");
-      bubble.innerHTML = `<span class="typing">
-        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-      </span>`;
+      bubble.innerHTML = `
+        <span class="typing">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </span>
+      `;
 
       row.appendChild(bubble);
       chatEl.appendChild(row);
@@ -223,9 +193,7 @@
         await new Promise(r => setTimeout(r, wait));
         hideTyping();
 
-        if(item.img){
-          addImage(item.side, item.img, item.alt);
-        } else if(item.html){
+        if(item.html){
           addBubble(item.side, item.html, true);
         } else {
           addBubble(item.side, item.text);
